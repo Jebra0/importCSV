@@ -3,12 +3,13 @@
 namespace App\Jobs;
 
 use App\Models\Sale;
+use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
 class ImportCsvJob implements ShouldQueue
 {
-    use Queueable;
+    use Batchable, Queueable;
 
     public $data;
     public $header;

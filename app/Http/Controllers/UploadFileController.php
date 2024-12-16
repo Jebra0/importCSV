@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ImportCsvJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 
 class UploadFileController extends Controller
 {
@@ -16,6 +17,9 @@ class UploadFileController extends Controller
         //chunking to small files
         $chunks = array_chunk($csv, 1000);
 
+        // create Batch
+        $batch = Bus::batch([])->dispatch();
+
         $header = [];
         foreach ($chunks as $key => $chunk) {
             $data = array_map('str_getcsv', $chunk);
@@ -24,8 +28,9 @@ class UploadFileController extends Controller
                 $header = $data[0];
                 unset($data[0]);
             }
-            ImportCsvJob::dispatch($data, $header);
+            //add each chunk job to the batch
+            $batch->add(new ImportCsvJob($data, $header));
         }
-        return 'Done';
+        return Bus::findBatch($batch->id);
     }
 }

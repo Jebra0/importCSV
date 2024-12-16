@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('Sales Channel');
             $table->string('Order Priority');
             $table->string('Order Date');
-            $table->bigInteger('Order ID')->unique();
+            $table->bigInteger('Order ID');
             $table->string('Ship Date');
             $table->integer('Units Sold');
             $table->decimal('Unit Price', 8, 2);
