@@ -12,6 +12,3 @@ Route::get('/upload', [UploadFileController::class, 'upload'])
 
 Route::post('/upload', [UploadFileController::class, 'store'])
     ->name('upload');
-
-Route::get('/store', [UploadFileController::class, 'add_data'])
-    ->name('store');
